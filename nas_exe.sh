@@ -1,12 +1,11 @@
 #!/bin/bash
 
-NPB=$HOME/CMP223_P4/NPB3.4-MPI/bin
-P4=$HOME/CMP223_P4
+NPB=$SCRATCH/NPB/NPB3.4-MPI/bin
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
-LOGS=$P4/logs_nas
+LOGS=$SCRATCH
 OUTPUT=$LOGS/npb.$START.csv
-PROJECT=$P4/lib/experimental_project.csv
-MACHINEFILE=$P4/lib/nas_nodes
+PROJECT=$SCRATCH/experimental_project.csv
+MACHINEFILE=$SCRATCH/nodes
 
 
 #Read the experimental project
@@ -26,7 +25,7 @@ do
 
 	# Prepare the command for execution
 	runline=""
-	runline+="mpirun -np 4 "
+	runline+="mpirun -np 64 "
 
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$NPB/$kernels$inputs "
