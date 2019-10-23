@@ -25,7 +25,7 @@ START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS=$BASE/$SLURM_JOB_NAME
 OUTPUT=$LOGS/npb.$START.csv
 GIT=$BASE/SMPE_1920
-PROJECT=$GIT/experimental_project.csv
+PROJECT=$GIT/projeto-experimental.csv
 
 #Clone Git
 cd $BASE; git clone https://github.com/andermm/SMPE_1920.git;
