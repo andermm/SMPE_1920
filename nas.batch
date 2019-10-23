@@ -88,13 +88,13 @@ do
 
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAMA/$kernels$inputs "
-	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/backup/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
+#	runline+="2>> $LOGS_DIR/nas.err"
+#	runline+=" &> >(tee -a $LOGS_DIR/backup/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
 	
 	
-	# 3.3 Executes the experiments
+	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
-	eval "$runline < /dev/null"
+	eval "$runline"
 
 	TIME=`grep -i "Time in seconds" $LOGS_DIR/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},${inputs:0:1},$TIME" >> $OUTPUT
