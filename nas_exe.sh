@@ -4,7 +4,7 @@ NPB=$SCRATCH/NPB/NPB3.4-MPI/bin
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS=$SCRATCH
 OUTPUT=$LOGS/npb.$START.csv
-PROJECT=$SCRATCH/experimental_project.csv
+PROJECT=$SCRATCH/projeto-experimental.csv
 MACHINEFILE=$SCRATCH/nodes
 
 
@@ -25,7 +25,7 @@ do
 
 	# Prepare the command for execution
 	runline=""
-	runline+="mpirun -np 64 "
+	runline+="mpirun -np 128 "
 
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$NPB/$kernels$inputs "
