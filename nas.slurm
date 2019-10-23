@@ -6,8 +6,8 @@
 #SBATCH --ntasks=128
 #SBATCH --partition=hype
 #SBATCH --exclusive
-#SBATCH --output=%x_%j.out
-#SBATCH --error=%x_%j.er
+#SBATCH --output=$LOGS_DIR/$SLURM_JOB_NAME..out
+#SBATCH --error=$LOGS_DIR/$SLURM_JOB_NAME.err
 
 echo "Running on $SLURM_JOB_NODELIST"
 
@@ -19,8 +19,8 @@ PROGRAMA_CONFIG=$BASE/NPB3.4/NPB3.4-MPI/config
 PROGRAMA_COMPILE=$BASE/NPB3.4/NPB3.4-MPI
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 
-LOGS_DIR=$HOME/SMPE_1920
-OUTPUT=$HOME/SMPE_1920/npb.$START.csv
+LOGS_DIR=$HOME/SMPE_1920/$SLURM_JOB_NAME
+OUTPUT=$HOME/SMPE_1920/$SLURM_JOB_NAME/npb.$START.csv
 PROJECT=$HOME/SMPE_1920/projeto-experimental.csv
 
 # Ingressar no diretório de base
