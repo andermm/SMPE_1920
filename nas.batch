@@ -15,7 +15,7 @@ PROGRAMA=$BASE/NPB3.4/NPB3.4-MPI/bin
 PROGRAMA_CONFIG=$BASE/NPB3.4/NPB3.4-MPI/config
 PROGRAMA_COMPILE=$BASE/NPB3.4/NPB3.4-MPI
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
-LOGS_DIR=$BASE/$SLURM_JOB_NAME_logs
+LOGS_DIR=$BASE/logs
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/projeto-experimental.csv
 
@@ -58,11 +58,11 @@ done
 cd $PROGRAMA_COMPILE; make suite; cd $HOME
 
 # Criar um diretório para conter todos os resultados
-mkdir -p $BASE/$SLURM_JOB_NAME_logs
+mkdir -p $BASE/logs
 mkdir -p $LOGS_DIR/backup
 
 # Define o Machine File necessário para MPI
-MACHINEFILE=$LOGS_DIR/$SLURM_JOB_NAME_logs/nodes
+MACHINEFILE=$LOGS_DIR/nodes
 srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
 
