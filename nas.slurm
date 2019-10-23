@@ -24,8 +24,11 @@ PROGRAMA_COMPILE=$BASE/NPB/NPB3.3-MPI
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS=$BASE/$SLURM_JOB_NAME
 OUTPUT=$LOGS/npb.$START.csv
-PROJECT=$LOGS/experimental_project.csv
+GIT=$BASE/SMPE_1920
+PROJECT=$GIT/experimental_project.csv
 
+#Clone Git
+cd $BASE; git clone git@github.com:andermm/SMPE_1920.git;
 
 #Baixar, configurar e compilar o NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
@@ -58,7 +61,7 @@ done
 
 #Compilar
 cd $PROGRAMA_COMPILE; make suite; cd $BASE
-sync
+
 # Criar um diretório para conter todos os resultados
 mkdir -p $SLURM_JOB_NAME
 mkdir -p $SLURM_JOB_NAME/backup
