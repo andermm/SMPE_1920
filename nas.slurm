@@ -12,22 +12,19 @@
 echo "Running on $SLURM_JOB_NODELIST"
 
 ## Diretório de base
-export BASE=/scratch/ammaliszewski
-
-# Ingressar no diretório de base
-cd $BASE
-
+BASE=/scratch/ammaliszewski
 
 PROGRAMA=$BASE/NPB3.4/NPB3.4-MPI/bin
 PROGRAMA_CONFIG=$BASE/NPB3.4/NPB3.4-MPI/config
 PROGRAMA_COMPILE=$BASE/NPB3.4/NPB3.4-MPI
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 
-
-LOGS=$HOME/SMPE_1920
+LOGS_DIR=$HOME/SMPE_1920
 OUTPUT=$HOME/SMPE_1920/npb.$START.csv
 PROJECT=$HOME/SMPE_1920/projeto-experimental.csv
 
+# Ingressar no diretório de base
+cd $BASE
 
 #Baixar, configurar e compilar o NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
@@ -66,11 +63,11 @@ done
 cd $PROGRAMA_COMPILE; make suite; cd $BASE
 
 # Criar um diretório para conter todos os resultados
-mkdir -p $LOGS/$SLURM_JOB_NAME
-mkdir -p $LOGS/$SLURM_JOB_NAME/backup
+mkdir -p $LOGS_DIR/$SLURM_JOB_NAME
+mkdir -p $LOGS_DIR/$SLURM_JOB_NAME/backup
 
 # Define o Machine File necessário para MPI
-MACHINEFILE=$LOGS/$SLURM_JOB_NAME/nodes
+MACHINEFILE=$LOGS_DIR/$SLURM_JOB_NAME/nodes
 srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
 
@@ -96,15 +93,15 @@ do
 
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAMA/$kernels$inputs "
-	runline+="2>> $LOGS/nas.err"
-	runline+=" &> >(tee -a $LOGS/backup/$kernels${inputs:0:1}.log > $LOGS/nas.out)"
+	runline+="2>> $LOGS_DIR/nas.err"
+	runline+=" &> >(tee -a $LOGS_DIR/backup/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
 	
 	
 	# 3.3 Executes the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
 
-	TIME=`grep -i "Time in seconds" $LOGS/nas.out | awk {'print $5'}`
+	TIME=`grep -i "Time in seconds" $LOGS_DIR/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},${inputs:0:1},$TIME" >> $OUTPUT
 	echo "Done!"
 done
