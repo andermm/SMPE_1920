@@ -1,14 +1,20 @@
 #!/bin/bash
 
-NPB=$SCRATCH/NPB/NPB3.4-MPI/bin
+NPB=/scratch/ammaliszewski/NPB/NPB3.4-MPI/bin
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
-LOGS=$SCRATCH
+LOGS=/scratch/ammaliszewski
 OUTPUT=$LOGS/npb.$START.csv
+<<<<<<< HEAD
 PROJECT=$SCRATCH/projeto-experimental.csv
 MACHINEFILE=$SCRATCH/nodes
+=======
+PROJECT=$LOGS/experimental_project.csv
+MACHINEFILE=/scratch/ammaliszewski/nodes
+>>>>>>> 75e5c4f644799ce3471ae656b969bf27bbe77ae8
 
 
 #Read the experimental project
+echo $PROJECT
 tail -n +2 $PROJECT |
 	while IFS=, read -r name runnoinstdorder runno runnostdrp \
 		kernels inputs Blocks
