@@ -100,8 +100,6 @@ do
 	# 3.3 Executes the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
-	
-	#cp $LOGS/nas.time $LOGS/nas.backup
 
 	TIME=`grep -i "Time in seconds" $LOGS/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},${inputs:0:1},$TIME" >> $OUTPUT
