@@ -33,8 +33,8 @@ cd $BASE; git clone https://github.com/andermm/SMPE_1920.git;
 #Baixar, configurar e compilar o NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
 tar -zxvf NPB3.4.tar.gz
-rename "s/\.def.template$/.def/" *.template
-sed -i 's,mpif90,mpifort,g' make.def
+rename "s/\.def.template$/.def/" $PROGRAMA_CONFIG/*.template
+sed -i 's,mpif90,mpifort,g' $PROGRAMA_CONFIG/make.def
 
 kernel=(is ep cg mg ft)
 classes=(C D)
