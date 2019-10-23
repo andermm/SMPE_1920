@@ -28,7 +28,7 @@ GIT=$BASE/SMPE_1920
 PROJECT=$GIT/experimental_project.csv
 
 #Clone Git
-cd $BASE; git clone git@github.com:andermm/SMPE_1920.git;
+cd $BASE; git clone https://github.com/andermm/SMPE_1920.git;
 
 #Baixar, configurar e compilar o NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
