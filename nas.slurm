@@ -6,7 +6,7 @@
 #SBATCH --ntasks=128
 #SBATCH --partition=hype
 #SBATCH --exclusive
-#SBATCH --output=$LOGS_DIR/$SLURM_JOB_NAME..out
+#SBATCH --output=$LOGS_DIR/$SLURM_JOB_NAME.out
 #SBATCH --error=$LOGS_DIR/$SLURM_JOB_NAME.err
 
 echo "Running on $SLURM_JOB_NODELIST"
