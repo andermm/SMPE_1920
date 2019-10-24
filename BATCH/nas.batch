@@ -63,8 +63,8 @@ done
 cd $PROGRAM_COMPILE; make suite; cd $HOME
 
 #Create a directory for the results
-mkdir -p $BASE/logs
-mkdir -p $LOGS_DIR/backup
+mkdir -p $BASE/LOGS
+mkdir -p $LOGS_DIR/BACKUP
 
 #Define the machine file for the MPI
 MACHINEFILE=$LOGS_DIR/nodes
@@ -93,7 +93,7 @@ do
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAM/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/backup/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
+	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
 	
 	
 	# 3.3 Execute the experiments
