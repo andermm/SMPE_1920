@@ -61,6 +61,10 @@ done
 #Compile NPB
 cd $PROGRAM_COMPILE; make suite; cd $BASE
 
+# Create the for the results
+mkdir -p $BASE/LOGS
+mkdir -p $BASE/LOGS/BACKUP
+
 #Define the machine file for MPI
 MACHINEFILE=$LOGS_DIR/nodes
 srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
