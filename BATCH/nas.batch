@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=exp
 #SBATCH --time=72:00:00
-#SBATCH --nodes=2
+#SBATCH --nodes=4
 #SBATCH --tasks-per-node=32
-#SBATCH --ntasks=64
+#SBATCH --ntasks=128
 #SBATCH --partition=hype
 #SBATCH --exclusive
 #SBATCH --output=%x_%j.out
@@ -18,7 +18,7 @@ LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
 IP=(192.168.30.0)
-PROCS=(64)
+PROCS=(128)
 
 cd $BASE
 
@@ -87,17 +87,18 @@ do
 	# Prepare the command for execution
 	runline=""
 	runline+="mpirun -np $PROCS "
-	runline+=" -machinefile $MACHINEFILE "
+	runline+=" -machinefile $MACHINEFILE --mca btl tcp,self "
 	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0 "
 	runline+="$PROGRAM_BIN/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
+	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > /tmp/nas.out)"
 	
+
 	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
 
-	TIME=`grep -i "Time in seconds" $LOGS_DIR/nas.out | awk {'print $5'}`
+	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},${inputs:0:1},$TIME" >> $OUTPUT
 	echo "Done!"
 done
