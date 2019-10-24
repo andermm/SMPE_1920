@@ -88,7 +88,7 @@ do
 	runline=""
 	runline+="mpirun -np $PROCS "
 	runline+=" -machinefile $MACHINEFILE "
-	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
+	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0 "
 	runline+="$PROGRAM_BIN/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
 	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
