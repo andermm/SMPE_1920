@@ -18,6 +18,7 @@ START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS_DIR=$BASE/logs
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/projeto-experimental.csv
+IP=(192.168.30.0)
 
 cd $BASE
 
@@ -83,9 +84,8 @@ do
 	echo $KEY
 
 	# Prepare the command for execution
-	runline=""
 	runline+="mpirun -np 128 "
-
+	runline="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAMA/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
