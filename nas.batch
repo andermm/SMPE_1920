@@ -85,7 +85,7 @@ do
 
 	# Prepare the command for execution
 	runline+="mpirun -np 128 "
-	runline="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
+	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAMA/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
@@ -94,7 +94,7 @@ do
 	
 	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
-	eval "$runline"
+	eval "$runline < /dev/null"
 
 	TIME=`grep -i "Time in seconds" $LOGS_DIR/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},${inputs:0:1},$TIME" >> $OUTPUT
