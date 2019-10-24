@@ -18,7 +18,7 @@ START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
-IP=(192.168.30.0)
+IP=(192.168.200.0)
 PROCS=(128)
 
 cd $BASE
@@ -90,13 +90,12 @@ do
 	# Prepare the command for execution
 	runline=""
 	runline+="mpirun -np $PROCS "
-	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
+	runline+="--mca btl ^tcp --mca btl_openib_warn_default_gid_prefix 0 --mca btl_base_warn_component_unused 0"
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAM/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
 	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
-	
-	
+
 	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
