@@ -2,7 +2,6 @@
 #SBATCH --job-name=exp
 #SBATCH --time=72:00:00
 #SBATCH --nodes=4
-#SBATCH --nodelist=hype[1-2,4-5]
 #SBATCH --tasks-per-node=32
 #SBATCH --ntasks=128
 #SBATCH --partition=hype
@@ -90,12 +89,12 @@ do
 	# Prepare the command for execution
 	runline=""
 	runline+="mpirun -np $PROCS "
-	runline+="--mca btl ^tcp --mca btl_openib_warn_default_gid_prefix 0 --mca btl_base_warn_component_unused 0 "
+	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
 	runline+=" -machinefile $MACHINEFILE "
 	runline+="$PROGRAM/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
 	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
-
+	
 	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
