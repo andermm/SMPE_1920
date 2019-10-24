@@ -18,7 +18,7 @@ LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
 IP=(192.168.30.0)
-PROCS=(128)
+PROCS=(32)
 
 cd $BASE
 
