@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=exp
 #SBATCH --time=72:00:00
-#SBATCH --nodes=4
-#SBATCH --tasks-per-node=32
-#SBATCH --ntasks=128
-#SBATCH --partition=hype
+#SBATCH --nodes=2
+#SBATCH --tasks-per-node=16
+#SBATCH --ntasks=32
+#SBATCH --partition=orion
 #SBATCH --exclusive
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
