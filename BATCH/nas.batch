@@ -2,9 +2,9 @@
 #SBATCH --job-name=exp
 #SBATCH --time=72:00:00
 #SBATCH --nodes=2
-#SBATCH --tasks-per-node=16
-#SBATCH --ntasks=32
-#SBATCH --partition=orion
+#SBATCH --tasks-per-node=32
+#SBATCH --ntasks=64
+#SBATCH --partition=hype
 #SBATCH --exclusive
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
@@ -18,7 +18,7 @@ LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
 IP=(192.168.30.0)
-PROCS=(36)
+PROCS=(64)
 
 cd $BASE
 
