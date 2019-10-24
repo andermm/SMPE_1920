@@ -1,0 +1,40 @@
+#!/bin/bash
+#SBATCH --job-name=npb-native
+#SBATCH --time=72:00:00
+#SBATCH --partition=hype
+#SBATCH --exclusive
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=32
+#SBATCH --ntasks=64
+#SBATCH --cpus-per-task=1
+#SBATCH --output=%x_%j.out
+#SBATCH --error=%x_%j.err
+
+echo "Running on $SLURM_JOB_NODELIST"
+
+MACHINEFILE="$SCRATCH/nodes.$SLURM_JOB_ID"
+srun -l hostname | sort -n | awk '{print $2}' > $MACHINEFILE
+
+NPB=$SCRATCH/NPB/NPB3.4-MPI/bin
+START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
+OUTPUT=$SCRATCH/npb.$START.csv
+
+
+echo output file: $OUTPUT
+
+echo "env,app,class,interface,metric,value" > $OUTPUT
+
+cd $NPB
+
+for step in `seq 1 30`; do
+	echo "step: $step"	
+	for app in *.x; do
+		printf "\t app: $app \n"
+			mpirun --mca oob_tcp_if_include 192.168.30.0/24 --mca btl_tcp_if_include 192.168.30.0/24 --mca btl_base_warn_component_unused 0 -np $SLURM_NTASKS -machinefile $MACHINEFILE $app 2> /tmp/nas.err 1> /tmp/nas.time
+			TIME=`grep -i "Time in seconds" /tmp/nas.time | awk {'print $5'}`
+			echo "native,${app:0:2},${app:3:1},$int,time,$TIME" >> $OUTPUT
+	done
+done
+
+
+echo "done"
