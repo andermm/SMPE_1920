@@ -10,7 +10,7 @@
 #SBATCH --error=%x_%j.err
 
 BASE=$HOME/SMPE_1920
-PROGRAM=$BASE/NPB3.4/NPB3.4-MPI/bin
+PROGRAM_BIN=$BASE/NPB3.4/NPB3.4-MPI/bin
 PROGRAM_CONFIG=$BASE/NPB3.4/NPB3.4-MPI/config
 PROGRAM_COMPILE=$BASE/NPB3.4/NPB3.4-MPI
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
@@ -59,19 +59,13 @@ for (( n = 0; n < 2; n++ )); do
 done
 
 #Compile NPB
-cd $PROGRAM_COMPILE; make suite; cd $HOME
+cd $PROGRAM_COMPILE; make suite; cd $BASE
 
-#Create a directory for the results
-mkdir -p $BASE/LOGS
-mkdir -p $LOGS_DIR/BACKUP
-
-#Define the machine file for the MPI
+#Define the machine file for MPI
 MACHINEFILE=$LOGS_DIR/nodes
 srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
-
 #Read the experimental project
-echo $PROJECT
 tail -n +2 $PROJECT |
 	while IFS=, read -r name runnoinstdorder runno runnostdrp \
 		kernels inputs Blocks
@@ -89,15 +83,15 @@ do
 	# Prepare the command for execution
 	runline=""
 	runline+="mpirun -np $PROCS "
-	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
 	runline+=" -machinefile $MACHINEFILE "
-	runline+="$PROGRAM/$kernels$inputs "
+	runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 --mca btl_base_warn_component_unused 0"
+	runline+="$PROGRAM_BIN/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
 	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > $LOGS_DIR/nas.out)"
 	
 	# 3.3 Execute the experiments
-	$runline
-	#eval "$runline < /dev/null"
+	echo "Running >> $runline <<"
+	eval "$runline < /dev/null"
 
 	TIME=`grep -i "Time in seconds" $LOGS_DIR/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},${inputs:0:1},$TIME" >> $OUTPUT
