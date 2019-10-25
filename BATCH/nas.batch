@@ -80,14 +80,14 @@ do
 	export btl=$(echo $btl | sed "s/\"//g")
 
 	# Define a single key
-	KEY="$name-$kernels-$inputs-$btl"
+	KEY="$name-${kernels:0:2}-${inputs:0:1}-$INTERFACE"
 	
 	echo $KEY
 
 	# Prepare the command for execution
 	runline=""
 	runline+="mpirun -np $PROCS -machinefile $MACHINEFILE --mca btl $btl "
-	runline+="--mca btl_base_warn_component_unused 0 "
+	runline+="--mca btl_base_warn_component_unused 0 --mca orte_base_help_aggregate 0"
 	if [[ $btl == ^tcp ]]; then
 		runline+="--mca btl_openib_warn_default_gid_prefix 0 "
 		INTERFACE=IB
