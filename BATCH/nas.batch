@@ -90,12 +90,14 @@ do
 	runline+="--mca btl_base_warn_component_unused 0 "
 	if [[ $btl == ^tcp ]]; then
 		runline+="--mca btl_openib_warn_default_gid_prefix 0 "
+		INTERFACE=IB
 	else
 		runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 "
+		INTERFACE=ETH
 	fi
 	runline+="$PROGRAM_BIN/$kernels$inputs "
 	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.log > /tmp/nas.out)"
+	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.$INTERFACE.log > /tmp/nas.out)"
 	
 
 	# 3.3 Execute the experiments
@@ -104,11 +106,7 @@ do
 
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
 	echo "kernel,input,interface,time"
-	if [[ $btl == ^tcp ]]; then
-		echo "${kernels:0:2},${inputs:0:1},IB,$TIME" >> $OUTPUT
-	else
-		echo "${kernels:0:2},${inputs:0:1},ETH,$TIME" >> $OUTPUT
-	fi
+		echo "${kernels:0:2},${inputs:0:1},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
 done
 exit
