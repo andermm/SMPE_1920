@@ -71,25 +71,24 @@ srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
 #Read the experimental project
 tail -n +2 $PROJECT |
-	while IFS=, read -r name runnoinstdorder runno runnostdrp \
-		kernels inputs btl Blocks
+	while IFS=\; read -r name kernels inputs btl Blocks
 do
 	#Clean the values
 	export name=$(echo $name | sed "s/\"//g")
 	export kernels=$(echo $kernels | sed "s/\"//g")
 	export inputs=$(echo $inputs | sed "s/\"//g")
-	#export btl=$(echo $btl | sed "s/\"//g")
+	export btl=$(echo $btl | sed "s/\"//g")
 
 	# Define a single key
-	KEY="$name-$kernels-$inputs-"$btl""
+	KEY="$name-$kernels-$inputs-$btl"
 	
 	echo $KEY
 
 	# Prepare the command for execution
 	runline=""
-	runline+="mpirun -np $PROCS -machinefile $MACHINEFILE --mca btl "$btl" "
+	runline+="mpirun -np $PROCS -machinefile $MACHINEFILE --mca btl $btl "
 	runline+="--mca btl_base_warn_component_unused 0 "
-	if [[ "$btl" == "^btl" ]]; then
+	if [[ $btl == ^btl ]]; then
 		runline+="--mca btl_openib_warn_default_gid_prefix 0 "
 	else
 		runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 "
@@ -105,7 +104,7 @@ do
 
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
 	echo "kernel,input,interface,time"
-	if [[ "$btl"=="^btl" ]]; then
+	if [[ $btl == ^btl ]]; then
 		echo "${kernels:0:2},${inputs:0:1},IB,$TIME" >> $OUTPUT
 	else
 		echo "${kernels:0:2},${inputs:0:1},ETH,$TIME" >> $OUTPUT
