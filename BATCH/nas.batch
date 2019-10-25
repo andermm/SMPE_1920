@@ -87,7 +87,7 @@ do
 	# Prepare the command for execution
 	runline=""
 	runline+="mpirun -np $PROCS -machinefile $MACHINEFILE --mca btl $btl "
-	runline+="--mca btl_base_warn_component_unused 0 --mca orte_base_help_aggregate 0"
+	runline+="--mca btl_base_warn_component_unused 0 --mca orte_base_help_aggregate 0 "
 	if [[ $btl == ^tcp ]]; then
 		runline+="--mca btl_openib_warn_default_gid_prefix 0 "
 		INTERFACE=IB
