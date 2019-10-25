@@ -63,7 +63,7 @@ cd $PROGRAM_COMPILE; make suite; cd $BASE
 
 # Create the for the results
 #mkdir -p $BASE/LOGS
-#mkdir -p $BASE/LOGS/BACKUP
+mkdir -p $BASE/LOGS/BACKUP
 
 #Define the machine file for MPI
 MACHINEFILE=$LOGS_DIR/nodes
@@ -96,7 +96,7 @@ do
 		INTERFACE=ETH
 	fi
 	runline+="$PROGRAM_BIN/$kernels$inputs "
-	#runline+="2>> $LOGS_DIR/nas.err"
+	runline+="2>> $LOGS_DIR/nas.err"
 	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.$INTERFACE.log > /tmp/nas.out)"
 	
 
