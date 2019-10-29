@@ -17,7 +17,6 @@ START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
-PROCS=128
 
 cd $BASE
 
@@ -66,7 +65,7 @@ mkdir -p $BASE/LOGS/BACKUP
 
 #Define the machine file for MPI
 MACHINEFILE_POWER_OF_2=$LOGS_DIR/nodes_power_of_2
-MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_power_of_2
+MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_square_root
 #srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
 #Read the experimental project
@@ -85,7 +84,7 @@ do
 
 	# Prepare the command for execution
 	runline=""
-	runline+="mpirun -np $PROCS --mca btl self,$btl "
+	runline+="mpirun -np --mca btl self,$btl "
 
 	if [[ $btl == openib ]]; then
 		runline+="--mca btl_openib_if_include mlx5_0:1 "
@@ -98,13 +97,15 @@ do
 	fi
 
 	if [[ $kernels == bt.D.x || $kernels == sp.D.x ]]; then
-		runline+="-machinefile $MACHINEFILE_SQUARE_ROOT "
+		PROCS=121
+		runline+="$PROCS -machinefile $MACHINEFILE_SQUARE_ROOT "
 	else 
-		runline+="-machinefile $MACHINEFILE_POWER_OF_2 "
+		PROCS=128
+		runline+="$PROCS -machinefile $MACHINEFILE_POWER_OF_2 "
 	fi
 	runline+="$PROGRAM_BIN/$kernels "
 	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels.$INTERFACE.log > /tmp/nas.out)"
+	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels$INTERFACE.log > /tmp/nas.out)"
 	
 	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
