@@ -89,11 +89,14 @@ do
 	if [[ $btl == openib ]]; then
 		runline+="--mca btl_openib_if_include mlx5_0:1 "
 		INTERFACE=IB
-		if [[ $btl == "tcp --mca btl_tcp_if_include ib0" ]]; then
-			INTERFACE=IPoIB
-		else 
+	fi
+
+	if [[ $btl == "tcp --mca btl_tcp_if_include ib0" ]]; then
+		INTERFACE=IPoIB
+	fi
+
+	if [[ $btl == "tcp --mca btl_tcp_if_include eno2" ]]; then
 		INTERFACE=ETH
-		fi
 	fi
 
 	if [[ $kernels == bt.D.x || $kernels == sp.D.x ]]; then
@@ -104,16 +107,15 @@ do
 		runline+="-np $PROCS -machinefile $MACHINEFILE_POWER_OF_2 "
 	fi
 	runline+="$PROGRAM_BIN/$kernels "
-	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels$INTERFACE.log > /tmp/nas.out)"
+	runline+="2>> $LOGS_DIR/nas.err "
+	runline+="&> >(tee -a $LOGS_DIR/BACKUP/${kernels:0:3}$INTERFACE.log > /tmp/nas.out)"
 	
 	# 3.3 Execute the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
 
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
-	echo "kernel,interface,time"
-		echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
+	echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
 done
 exit
