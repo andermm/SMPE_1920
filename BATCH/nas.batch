@@ -17,13 +17,12 @@ START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
-IP=(192.168.30.0)
-PROCS=(128)
+PROCS=128
 
 cd $BASE
 
 #Collect system information
-./CONTROL/enviroment_control.sh 
+./CONTROL/enviroment_control.sh
 
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
@@ -66,38 +65,44 @@ cd $PROGRAM_COMPILE; make suite; cd $BASE
 mkdir -p $BASE/LOGS/BACKUP
 
 #Define the machine file for MPI
-MACHINEFILE=$LOGS_DIR/nodes
+MACHINEFILE_POWER_OF_2=$LOGS_DIR/nodes_power_of_2
+MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_power_of_2
 #srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
 #Read the experimental project
 tail -n +2 $PROJECT |
-	while IFS=\; read -r name kernels inputs btl Blocks
+	while IFS=\; read -r name kernels btl Blocks
 do
 	#Clean the values
 	export name=$(echo $name | sed "s/\"//g")
 	export kernels=$(echo $kernels | sed "s/\"//g")
-	export inputs=$(echo $inputs | sed "s/\"//g")
 	export btl=$(echo $btl | sed "s/\"//g")
 
 	# Define a single key
-	KEY="$name-${kernels:0:2}-${inputs:0:1}-$INTERFACE"
+	KEY="$name-${kernels:0:2}-$INTERFACE"
 	
 	echo $KEY
 
 	# Prepare the command for execution
 	runline=""
-	runline+="mpirun -np $PROCS -machinefile $MACHINEFILE --mca btl $btl "
-	runline+="--mca btl_base_warn_component_unused 0 --mca orte_base_help_aggregate 0 "
-	if [[ $btl == ^tcp ]]; then
-		runline+="--mca btl_openib_warn_default_gid_prefix 0 "
+	runline+="mpirun -np $PROCS --mca btl self,$btl "
+	if [[ $btl == openib ]]; then
+		runline+="--mca btl_openib_if_include mlx5_0:1 "
 		INTERFACE=IB
-	else
-		runline+="--mca oob_tcp_if_include $IP/24 --mca btl_tcp_if_include $IP/24 "
+	else if [[ $btl ==  tcp --mca btl_tcp_if_include ib0 ]]; then
+		INTERFACE=IPoIB
+	else 
 		INTERFACE=ETH
 	fi
-	runline+="$PROGRAM_BIN/$kernels$inputs "
+
+	if [[ $kernels == bt.D.x || $kernels == sp.D.x ]]; then
+		runline+="-machinefile $MACHINEFILE_SQUARE_ROOT "
+	else 
+		runline+="-machinefile $MACHINEFILE_POWER_OF_2 "
+	fi
+	runline+="$PROGRAM_BIN/$kernels "
 	runline+="2>> $LOGS_DIR/nas.err"
-	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels${inputs:0:1}.$INTERFACE.log > /tmp/nas.out)"
+	runline+=" &> >(tee -a $LOGS_DIR/BACKUP/$kernels.$INTERFACE.log > /tmp/nas.out)"
 	
 
 	# 3.3 Execute the experiments
@@ -106,7 +111,23 @@ do
 
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
 	echo "kernel,input,interface,time"
-		echo "${kernels:0:2},${inputs:0:1},$INTERFACE,$TIME" >> $OUTPUT
+		echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
 done
 exit
+
+
+#IpoIB
+#mpirun -np 128 --mca btl self,tcp --mca btl_tcp_if_include ib0 \
+#-machinefile /home/users/ammaliszewski/SMPE_1920/LOGS/nodes_power_of_2 \
+#/home/users/ammaliszewski/SMPE_1920/NPB3.4/NPB3.4-MPI/bin/ft.C.x
+
+#Ethernet
+#mpirun -np 128 --mca btl self,tcp --mca btl_tcp_if_include eno2 \
+#-machinefile /home/users/ammaliszewski/SMPE_1920/LOGS/nodes_power_of_2 \
+#/home/users/ammaliszewski/SMPE_1920/NPB3.4/NPB3.4-MPI/bin/ft.D.x
+
+#Infiniband
+#mpirun -np 128 --mca btl self,openib \
+#-machinefile /home/users/ammaliszewski/SMPE_1920/LOGS/nodes_power_of_2 \
+#--mca btl_openib_if_include mlx5_0:1 /home/users/ammaliszewski/SMPE_1920/NPB3.4/NPB3.4-MPI/bin/ft.D.x
