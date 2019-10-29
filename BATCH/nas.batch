@@ -89,7 +89,7 @@ do
 	if [[ $btl == openib ]]; then
 		runline+="--mca btl_openib_if_include mlx5_0:1 "
 		INTERFACE=IB
-	else if [[ $btl ==  tcp --mca btl_tcp_if_include ib0 ]]; then
+	else if [[ $btl ==  "tcp --mca btl_tcp_if_include ib0" ]]; then
 		INTERFACE=IPoIB
 	else 
 		INTERFACE=ETH
