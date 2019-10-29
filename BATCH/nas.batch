@@ -84,7 +84,7 @@ do
 
 	# Prepare the command for execution
 	runline=""
-	runline+="mpirun -np --mca btl self,$btl "
+	runline+="mpirun --mca btl self,$btl "
 
 	if [[ $btl == openib ]]; then
 		runline+="--mca btl_openib_if_include mlx5_0:1 "
@@ -98,10 +98,10 @@ do
 
 	if [[ $kernels == bt.D.x || $kernels == sp.D.x ]]; then
 		PROCS=121
-		runline+="$PROCS -machinefile $MACHINEFILE_SQUARE_ROOT "
+		runline+="-np $PROCS -machinefile $MACHINEFILE_SQUARE_ROOT "
 	else 
 		PROCS=128
-		runline+="$PROCS -machinefile $MACHINEFILE_POWER_OF_2 "
+		runline+="-np $PROCS -machinefile $MACHINEFILE_POWER_OF_2 "
 	fi
 	runline+="$PROGRAM_BIN/$kernels "
 	runline+="2>> $LOGS_DIR/nas.err"
