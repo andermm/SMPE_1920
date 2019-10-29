@@ -35,12 +35,12 @@ done
 sed -i 's,mpif90,mpifort,g' $PROGRAM_CONFIG/make.def
 
 kernel=(bt ep cg mg sp lu is ft)
-classes=(C D)
+classes=(D)
 echo -n "" > $PROGRAM_CONFIG/suite.def
 
 #Insert kernel and class in suite.def
 for (( n = 0; n < 8; n++ )); do
-	for (( i = 0; i < 2; i++ )); do
+	for (( i = 0; i < 1; i++ )); do
 		echo -e ${kernel[n]}"\t"${classes[i]} >> $PROGRAM_CONFIG/suite.def
 	done
 done
