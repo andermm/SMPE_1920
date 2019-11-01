@@ -26,6 +26,7 @@ cd $BASE
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
 tar -zxvf NPB3.4.tar.gz
+rm -rf NPB3.4.tar.gz
 
 for f in $PROGRAM_CONFIG/*.def.template; do
 	mv -- "$f" "${f%.def.template}.def"; 
