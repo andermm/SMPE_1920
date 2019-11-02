@@ -154,9 +154,10 @@ done >> $CONTROL_FILE_OUTPUT
 
 done
 
+:'
 #Start the experiments
 ssh hype1; cd $BASE
-:'
+
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
 tar -zxvf NPB3.4.tar.gz
