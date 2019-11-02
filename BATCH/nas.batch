@@ -21,14 +21,14 @@ PARTITION=hype
 
 #Start the script to collect system information
 
-echo $HOSTNAME > teste
-:'
+
+
 ./sys_info_collect.sh
-ssh hype2; ./sys_info_collect.sh
-ssh hype3; ./sys_info_collect.sh
-ssh hype4; ./sys_info_collect.sh
+ssh hype2 '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
+ssh hype3 '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
+ssh hype4 '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
 
-
+:'
 #Start the experiments
 ssh -T hype1;cd $BASE
 
