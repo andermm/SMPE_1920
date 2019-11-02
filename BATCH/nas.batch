@@ -151,9 +151,9 @@ for FILE in $FILES; do
     echo "cat $FILE"
     cat $FILE
 done >> $CONTROL_FILE_OUTPUT
-exit
-done
 
+done
+exit
 #Start the experiments
 ssh -T hype1;cd $BASE
 
