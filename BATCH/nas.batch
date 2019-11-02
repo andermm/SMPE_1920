@@ -30,11 +30,6 @@ echo "#+DATE: $(eval date)" >> $CONTROL_FILE_OUTPUT
 echo "#+AUTHOR: $(eval whoami)" >> $CONTROL_FILE_OUTPUT
 echo "#+MACHINE: $(eval hostname)" >> $CONTROL_FILE_OUTPUT
 echo "#+FILE: $(eval basename $CONTROL_FILE_OUTPUT)" >> $CONTROL_FILE_OUTPUT
-if [[ -n "$inputfile" ]]; 
-then
-    echo "#+INPUTFILE: $inputfile" >> $CONTROL_FILE_OUTPUT
-fi
-echo " " >> $CONTROL_FILE_OUTPUT 
 
 ##################################################
 # Collecting metadata
@@ -54,87 +49,87 @@ echo "############################################" >> $CONTROL_FILE_OUTPUT
 
 if [[ -n $(command -v lstopo) ]];
 then
-    echo "** MEMORY HIERARCHY:" >> $CONTROL_FILE_OUTPUT
-    lstopo --of console >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** MEMORY HIERARCHY:" >> $CONTROL_FILE_OUTPUT
+	lstopo --of console >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /proc/cpuinfo ];
 then
-    echo "** CPU INFO:" >> $CONTROL_FILE_OUTPUT
-    cat /proc/cpuinfo >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** CPU INFO:" >> $CONTROL_FILE_OUTPUT
+	cat /proc/cpuinfo >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ];
 then
-    echo "** CPU GOVERNOR:" >> $CONTROL_FILE_OUTPUT
-    ONLINECPUS=$(for CPU in $(find /sys/devices/system/cpu/ | grep cpu[0-9]*$); do [[ $(cat $CPU/online) -eq 1 ]] && echo $CPU; done | grep cpu[0-9]*$ | sed 's/.*cpu//')
-    for PU in ${ONLINECPUS}; do
-	     echo -n "CPU frequency for cpu${PU}: " >> $CONTROL_FILE_OUTPUT
-       cat /sys/devices/system/cpu/cpu${PU}/cpufreq/scaling_governor >> $CONTROL_FILE_OUTPUT
-    done
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** CPU GOVERNOR:" >> $CONTROL_FILE_OUTPUT
+	ONLINECPUS=$(for CPU in $(find /sys/devices/system/cpu/ | grep cpu[0-9]*$); do [[ $(cat $CPU/online) -eq 1 ]] && echo $CPU; done | grep cpu[0-9]*$ | sed 's/.*cpu//')
+	for PU in ${ONLINECPUS}; do
+		echo -n "CPU frequency for cpu${PU}: " >> $CONTROL_FILE_OUTPUT
+		cat /sys/devices/system/cpu/cpu${PU}/cpufreq/scaling_governor >> $CONTROL_FILE_OUTPUT
+	done
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq ];
 then
-    echo "** CPU FREQUENCY:" >> $CONTROL_FILE_OUTPUT
-    ONLINECPUS=$(for CPU in $(find /sys/devices/system/cpu/ | grep cpu[0-9]*$); do [[ $(cat $CPU/online) -eq 1 ]] && echo $CPU; done | grep cpu[0-9]*$ | sed 's/.*cpu//')
-    for PU in ${ONLINECPUS}; do
-	     echo -n "CPU frequency for cpu${PU}: " >> $CONTROL_FILE_OUTPUT
-	     cat /sys/devices/system/cpu/cpu${PU}/cpufreq/scaling_cur_freq >> $CONTROL_FILE_OUTPUT
-    done
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** CPU FREQUENCY:" >> $CONTROL_FILE_OUTPUT
+	ONLINECPUS=$(for CPU in $(find /sys/devices/system/cpu/ | grep cpu[0-9]*$); do [[ $(cat $CPU/online) -eq 1 ]] && echo $CPU; done | grep cpu[0-9]*$ | sed 's/.*cpu//')
+	for PU in ${ONLINECPUS}; do
+		echo -n "CPU frequency for cpu${PU}: " >> $CONTROL_FILE_OUTPUT
+		cat /sys/devices/system/cpu/cpu${PU}/cpufreq/scaling_cur_freq >> $CONTROL_FILE_OUTPUT
+	done
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /usr/bin/cpufreq-info ];
 then
-    echo "** CPUFREQ_INFO" >> $CONTROL_FILE_OUTPUT
-    cpufreq-info >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** CPUFREQ_INFO" >> $CONTROL_FILE_OUTPUT
+	cpufreq-info >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /usr/bin/lspci ];
 then
-    echo "** LSPCI" >> $CONTROL_FILE_OUTPUT
-    lspci >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** LSPCI" >> $CONTROL_FILE_OUTPUT
+	lspci >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /usr/bin/ompi_info ];
 then
-    echo "** OMPI_INFO" >> $CONTROL_FILE_OUTPUT
-    ompi_info --all >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** OMPI_INFO" >> $CONTROL_FILE_OUTPUT
+	ompi_info --all >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [ -f /sbin/ifconfig ];
 then
-    echo "** IFCONFIG" >> $CONTROL_FILE_OUTPUT
-    /sbin/ifconfig >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** IFCONFIG" >> $CONTROL_FILE_OUTPUT
+	/sbin/ifconfig >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [[ -n $(command -v nvidia-smi) ]];
 then
-    echo "** GPU INFO FROM NVIDIA-SMI:" >> $CONTROL_FILE_OUTPUT
-    nvidia-smi -q >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** GPU INFO FROM NVIDIA-SMI:" >> $CONTROL_FILE_OUTPUT
+	nvidia-smi -q >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi 
 
 if [ -f /proc/version ];
 then
-    echo "** LINUX AND GCC VERSIONS:" >> $CONTROL_FILE_OUTPUT
-    cat /proc/version >> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** LINUX AND GCC VERSIONS:" >> $CONTROL_FILE_OUTPUT
+	cat /proc/version >> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 if [[ -n $(command -v module) ]];
 then
-    echo "** MODULES:" >> $CONTROL_FILE_OUTPUT
-    module list 2>> $CONTROL_FILE_OUTPUT
-    echo "############################################" >> $CONTROL_FILE_OUTPUT
+	echo "** MODULES:" >> $CONTROL_FILE_OUTPUT
+	module list 2>> $CONTROL_FILE_OUTPUT
+	echo "############################################" >> $CONTROL_FILE_OUTPUT
 fi
 
 echo "** TCP PARAMETERS" >> $CONTROL_FILE_OUTPUT
@@ -148,12 +143,13 @@ FILES="/proc/sys/net/core/rmem_max \
 /proc/sys/net/ipv4/tcp_mem"
 
 for FILE in $FILES; do
-    echo "cat $FILE"
-    cat $FILE
+	echo "cat $FILE"
+	cat $FILE
 done >> $CONTROL_FILE_OUTPUT
 
 done
-exit
+
+
 #Start the experiments
 ssh -T hype1;cd $BASE
 
@@ -184,10 +180,10 @@ nome=(gfortran libopenmpi-dev)
 for (( n = 0; n < 2; n++ )); do
 	packets=$(dpkg --get-selections | grep ${nome[n]})
 	if [ -n "$packets" ];
-		then
-			echo All necessary packets are installed!
-		else
-			sudo apt install ${nome[n]} -y
+	then
+		echo All necessary packets are installed!
+	else
+		sudo apt install ${nome[n]} -y
 	fi
 done
 
@@ -205,7 +201,7 @@ MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_square_root
 
 #Read the experimental project
 tail -n +2 $PROJECT |
-	while IFS=\; read -r name kernels btl Blocks
+while IFS=\; read -r name kernels btl Blocks
 do
 	#Clean the values
 	export name=$(echo $name | sed "s/\"//g")
