@@ -30,7 +30,11 @@ echo "#+DATE: $(eval date)" >> $CONTROL_FILE_OUTPUT
 echo "#+AUTHOR: $(eval whoami)" >> $CONTROL_FILE_OUTPUT
 echo "#+MACHINE: $(eval hostname)" >> $CONTROL_FILE_OUTPUT
 echo "#+FILE: $(eval basename $CONTROL_FILE_OUTPUT)" >> $CONTROL_FILE_OUTPUT
-
+if [[ -n "$inputfile" ]]; 
+then
+    echo "#+INPUTFILE: $inputfile" >> $CONTROL_FILE_OUTPUT
+fi
+echo " " >> $CONTROL_FILE_OUTPUT
 ##################################################
 # Collecting metadata
 echo "* MACHINE INFO:" >> $CONTROL_FILE_OUTPUT
