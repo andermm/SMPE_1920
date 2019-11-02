@@ -21,8 +21,8 @@ PARTITION=hype
 CONTROL_FILE_OUTPUT=$LOGS_DIR/env_info.org
 
 #Collect system information
-for (( count = 1; count < 5; count++ )); do
-	ssh -T $PARTITION${count}
+for (( i = 1; i < 5; i++ )); do
+	ssh -T $PARTITION${i}
 ##################################################
 # Preambule of the output file
 echo "#+TITLE: $title" >> $CONTROL_FILE_OUTPUT
