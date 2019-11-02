@@ -22,19 +22,16 @@ CONTROL_FILE_OUTPUT=$LOGS_DIR/env_info.org
 
 #Collect system information
 for (( i = 1; i < 5; i++ )); do
-	ssh $PARTITION${i};
-##################################################
+	ssh $PARTITION${i}
+	for (( n = 1; n < 5; n++ )); do
+		##################################################
 # Preambule of the output file
 echo "#+TITLE: $title" >> $CONTROL_FILE_OUTPUT
 echo "#+DATE: $(eval date)" >> $CONTROL_FILE_OUTPUT
 echo "#+AUTHOR: $(eval whoami)" >> $CONTROL_FILE_OUTPUT
 echo "#+MACHINE: $(eval hostname)" >> $CONTROL_FILE_OUTPUT
 echo "#+FILE: $(eval basename $CONTROL_FILE_OUTPUT)" >> $CONTROL_FILE_OUTPUT
-if [[ -n "$inputfile" ]]; 
-then
-    echo "#+INPUTFILE: $inputfile" >> $CONTROL_FILE_OUTPUT
-fi
-echo " " >> $CONTROL_FILE_OUTPUT
+
 ##################################################
 # Collecting metadata
 echo "* MACHINE INFO:" >> $CONTROL_FILE_OUTPUT
@@ -150,7 +147,7 @@ for FILE in $FILES; do
 	echo "cat $FILE"
 	cat $FILE
 done >> $CONTROL_FILE_OUTPUT
-
+	done
 done
 
 :'
