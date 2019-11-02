@@ -153,7 +153,6 @@ for FILE in $FILES; do
 done >> $CONTROL_FILE_OUTPUT
 
 done
-exit
 
 #Start the experiments
 ssh hype1;cd $BASE
