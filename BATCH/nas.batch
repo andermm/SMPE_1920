@@ -11,7 +11,7 @@
 
 BASE=$HOME/SMPE_1920
 PROGRAM_BIN=$BASE/NPB3.4/NPB3.4-MPI/bin
-PROGRAM_CONFIG=$BASE/NPB3.4/NPB3.4-MPI/config
+PROGRAM_CONFIG=$BASE/qNPB3.4/NPB3.4-MPI/config
 PROGRAM_COMPILE=$BASE/NPB3.4/NPB3.4-MPI
 START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS_DIR=$BASE/LOGS
@@ -21,8 +21,7 @@ NODE=hype
 
 #Collect system information
 for (( count = 1; count < 5; count++ )); do
-	ssh $NODE${count}
-	./CONTROL/environment_control.sh	
+	ssh $NODE${count} '$BASE/CONTROL/./environment_control.sh'	
 done
 
 #Start the experiments
