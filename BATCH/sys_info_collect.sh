@@ -1,4 +1,4 @@
-CONTROL_FILE_OUTPUT=/home/users/ammmaliszewski/SMPE-1920/LOGS/env_info.org
+CONTROL_FILE_OUTPUT=/home/users/ammaliszewski/SMPE-1920/LOGS/env_info.org
 
 #Collect system information
 ##################################################
