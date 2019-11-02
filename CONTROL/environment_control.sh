@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script for to get machine information before doing the experiment
 
-filedat=CONTROL/environment_info.org
+filedat=$HOME/SMPE_1920/CONTROL/environment_info.org
 title="Experiment"
 inputfile=""
 host="$(hostname | sed 's/[0-9]*//g' | cut -d'.' -f1)"
