@@ -151,11 +151,11 @@ for FILE in $FILES; do
     echo "cat $FILE"
     cat $FILE
 done >> $CONTROL_FILE_OUTPUT
-
+exit
 done
 
 #Start the experiments
-ssh hype1;cd $BASE
+ssh -T hype1;cd $BASE
 
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
