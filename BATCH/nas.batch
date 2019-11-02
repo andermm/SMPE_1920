@@ -22,7 +22,7 @@ CONTROL_FILE_OUTPUT=$LOGS_DIR/env_info.org
 
 #Collect system information
 for (( count = 1; count < 5; count++ )); do
-	ssh $PARTITION${count}
+	ssh -T $PARTITION${count}
 ##################################################
 # Preambule of the output file
 echo "#+TITLE: $title" >> $CONTROL_FILE_OUTPUT
