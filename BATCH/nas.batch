@@ -20,9 +20,11 @@ PROJECT=$BASE/R/experimental_project.csv
 PARTITION=hype
 
 #Start the script to collect system information
-for (( i = 1; i < 5; i++ )); do
-	ssh -T $PARTITION${i}; ./sys_info_collect.sh
-done
+
+ssh hype1; ./sys_info_collect.sh
+ssh hype2; ./sys_info_collect.sh
+ssh hype3; ./sys_info_collect.sh
+ssh hype4; ./sys_info_collect.sh
 
 :'
 #Start the experiments
