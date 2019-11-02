@@ -153,7 +153,7 @@ done >> $CONTROL_FILE_OUTPUT
 
 done
 
-
+:'
 #Start the experiments
 ssh -T hype1;cd $BASE
 
@@ -254,7 +254,7 @@ do
 	echo "Done!"
 done
 exit
-
+'
 
 #IpoIB
 #mpirun -np 128 --mca btl self,tcp --mca btl_tcp_if_include ib0 \
