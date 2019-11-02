@@ -17,11 +17,16 @@ START=`date +"%d-%m-%Y.%Hh%Mm%Ss"`
 LOGS_DIR=$BASE/LOGS
 OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
-
-cd $BASE
+NODE=hype
 
 #Collect system information
-./CONTROL/enviroment_control.sh
+for (( count = 1; count < 5; count++ )); do
+	ssh $NODE${count}
+	./CONTROL/environment_control.sh	
+done
+
+#Start the experiments
+ssh hype1;cd $BASE
 
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
