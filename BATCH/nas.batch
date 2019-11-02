@@ -24,7 +24,7 @@ for (( count = 1; count < 5; count++ )); do
 	ssh $NODE${count}
 	./CONTROL/environment_control.sh	
 done
-
+:'
 #Start the experiments
 ssh hype1;cd $BASE
 
@@ -124,7 +124,7 @@ do
 	echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
 done
-exit
+exit'
 
 
 #IpoIB
