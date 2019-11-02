@@ -145,8 +145,8 @@ FILES="/proc/sys/net/core/rmem_max \
 for FILE in $FILES; do
 	echo "cat $FILE"
 	cat $FILE
-done >> $CONTROL_FILE_OUTPUT
-done'
+done >> $CONTROL_FILE_OUTPUT'
+done
 
 :'
 #Start the experiments
