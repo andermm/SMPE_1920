@@ -154,9 +154,8 @@ done >> $CONTROL_FILE_OUTPUT
 
 done
 
-:'
 #Start the experiments
-ssh hype1; cd $BASE
+ssh hype1;cd $BASE
 
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
@@ -255,7 +254,8 @@ do
 	echo "Done!"
 done
 exit
-'
+
+
 #IpoIB
 #mpirun -np 128 --mca btl self,tcp --mca btl_tcp_if_include ib0 \
 #-machinefile /home/users/ammaliszewski/SMPE_1920/LOGS/nodes_power_of_2 \
