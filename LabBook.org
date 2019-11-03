@@ -29,7 +29,7 @@
    
 ** System Information 
    To collect the information of all nodes used in the evaluation, it
-   was used the the bash script [[./sys_info_collect.sh]]
+   was used the the bash script [[./BATCH/sys_info_collect.sh]]
    which creates a log output with ORG extension in
    [[./LOGS/env_info.org]].
  
