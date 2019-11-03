@@ -50,5 +50,12 @@
    
    3 - Read the experimental project, prepare the MPI line command for the execution, execute the experiments, and
    finally collect the execution time of the benchmarks.
-
+   
+   Previously, the execution script was made to be used in a cluster
+   with Slurm job scheduler. However, in the InfiniBand execution, a
+   error was reported, regarding memory limitations which need to be
+   done to execute the script using *sbatch* command. To overcome this
+   problem, the nodes in the cluster were previouly allocated with the
+   command ~salloc -p hype -N 4 -J JOB -t 72:00:00~. Finally the the
+   execution script was executed as a nomal bash script.
 ** Graphical Analysis 
