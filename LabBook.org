@@ -57,5 +57,9 @@
    done to execute the script using *sbatch* command. To overcome this
    problem, the nodes in the cluster were previouly allocated with the
    command ~salloc -p hype -N 4 -J JOB -t 72:00:00~. Finally the the
-   execution script was executed as a nomal bash script.
+   execution script was executed as a nomal bash script. As the
+   experiments use two distints machine files
+   ([[./SMPE_1920/LOGS/nodes_power_of_2/]] and
+   [[./SMPE_1920/LOGS/nodes_square_root]]) they are automatically created
+   in the execution script.  
 ** Graphical Analysis 
