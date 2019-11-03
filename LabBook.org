@@ -36,8 +36,10 @@
 ** Design of Experiments
    To execute the benchmarks without any bias, it was used the library
    DoE in R-Studio (script in [[./SMPE_1920/R/DoE.R]]) to create the Design of Experiments, which is
-   located in [[./SMPE_1920/R/experimental_project.csv]]
-
+   located in [[./SMPE_1920/R/experimental_project.csv]]. In the DoE, it
+   was used two factors, *kernels* and *interface*, respectivele,
+   randomize option equal a true and 30 replications, totalizing 720
+   distincts executions.
 ** Experiments Execution
    All the experiments were executed using the batch script
    [[./SMPE_1920/BATCH/nas.batch]] which is subdivided in 3 individual steps. 
@@ -60,6 +62,6 @@
    execution script was executed as a nomal bash script. As the
    experiments use two distints machine files
    ([[./SMPE_1920/LOGS/nodes_power_of_2/]] and
-   [[./SMPE_1920/LOGS/nodes_square_root]]) they are automatically created
+   [[./SMPE_1920/LOGS/nodes_square_root]]) they are not automatically created
    in the execution script.  
 ** Graphical Analysis 
