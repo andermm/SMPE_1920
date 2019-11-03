@@ -19,15 +19,15 @@ OUTPUT=$LOGS_DIR/npb.$START.csv
 PROJECT=$BASE/R/experimental_project.csv
 PARTITION=hype
 
-#Collect system information
+#1 - Executes the system information collector script
+
 for (( i = 1; i < 5; i++ )); do
 	ssh $PARTITION${i} '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
 done
 
-#Start the experiments
+#2 - Install de dependencies, download and compile NPB
 cd $BASE
 
-#Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
 tar -zxvf NPB3.4.tar.gz
 rm -rf NPB3.4.tar.gz
@@ -49,7 +49,7 @@ for (( n = 0; n < 8; n++ )); do
 	done
 done
 
-#Install the dependencies
+#2 - Install the dependencies
 nome=(gfortran libopenmpi-dev)
 for (( n = 0; n < 2; n++ )); do
 	packets=$(dpkg --get-selections | grep ${nome[n]})
@@ -61,19 +61,17 @@ for (( n = 0; n < 2; n++ )); do
 	fi
 done
 
-#Compile NPB
+##Compile NPB
 cd $PROGRAM_COMPILE; make suite; cd $BASE
 
-# Create the for the results
-#mkdir -p $BASE/LOGS
 mkdir -p $BASE/LOGS/BACKUP
 
-#Define the machine file for MPI
+##Define the machine file for MPI
 MACHINEFILE_POWER_OF_2=$LOGS_DIR/nodes_power_of_2
 MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_square_root
 #srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
-#Read the experimental project
+#2 - Read the experimental project
 tail -n +2 $PROJECT |
 while IFS=\; read -r name kernels btl Blocks
 do
@@ -82,12 +80,12 @@ do
 	export kernels=$(echo $kernels | sed "s/\"//g")
 	export btl=$(echo $btl | sed "s/\"//g")
 
-	# Define a single key
+	##Define a single key
 	KEY="$name-${kernels:0:2}-$INTERFACE"
 	
 	echo $KEY
 
-	# Prepare the command for execution
+	##Prepare the command for execution
 	runline=""
 	runline+="mpirun --mca btl self,$btl "
 
@@ -115,7 +113,7 @@ do
 	runline+="2>> $LOGS_DIR/nas.err "
 	runline+="&> >(tee -a $LOGS_DIR/BACKUP/${kernels:0:3}$INTERFACE.log > /tmp/nas.out)"
 	
-	# 3.3 Execute the experiments
+	##Execute the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
 
