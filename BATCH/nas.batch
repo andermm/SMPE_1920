@@ -21,7 +21,7 @@ PARTITION=hype
 
 #Collect system information
 for (( i = 1; i < 5; i++ )); do
-	ssh -o $PARTITION${i} '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
+	ssh $PARTITION${i} '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
 done
 
 #Start the experiments
