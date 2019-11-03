@@ -7,21 +7,21 @@
 #+SEQ_TODO: TODO(t!) STARTED(s!) WAITING(w!) | DONE(d!) CANCELLED(c!) DEFERRED(f!)
 
 - This is the LabBook for the *Scientic Methodology and Performance
-  Evaluation for Experimental Computer* class, in which the
-  experimental informations are described.
+  Evaluation for Experimental Computer* class, in which informations
+  about the experimental procedure are described.
 
 * Experimental Project
 
 ** Objective
-   Evaluate both InfiniBand and Gigabit Ethernet interconnections,
-   using the same physical cluster of servers, executing the NAS
+   Evaluate the impact of the network interconnection over parallel
+   programs. Both *InfiniBand (IB)* and *Gigabit Ethernet (ETH)*
+   interconnections were evaluated, using the same physical cluster of servers, executing the NAS
    Parallel Benchmarks version 3.4 as representative HPC benchmarks. The
    evaluation was made using the *Masssage Passing Interface (MPI)*
    parallel implementation of the original set of benchmarks from the
    NPB suite, which is composed by five kernels *(IS, EP, CG, FT, and
    MG)* and three pseu-application *(BT, SP, and LU).* They are executed
-   using *Gigabit Ethernet (ETH)*, *Infiniband (IB)* and *IP-over-IB
-   (IPoIB)* with 128 processes over 4 nodes (32 processes per node) in
+   using ETH, IB and IP-over-IB with 128 processes over 4 nodes (32 processes per node) in
    the case of IS, EP, CG, FT, MG, and LU (power-of-two). As BT and SP
    require that the number of processes to be a square root, it was
    used 121 processes, with 31 processes in one node and 30 processes
@@ -40,9 +40,10 @@
 
 ** Experiments Execution
    All the experiments were executed using the batch script
-   [[./SMPE_1920/BATCH/nas.batch]] which executes the system
-   information collector script ([[./SMPE_1920/BATCH/nas.batch]]) in the
-   four nodes, install the dependencies required to compile the NPB
-   benchmarks, download and compile it, read the experimental project, prepare the
-   MPI line command for the execution, execute the experiments, and
+   [[./SMPE_1920/BATCH/nas.batch]] which is divided in 3 individual steps. 
+   1 - Executes the system information collector script ([[./SMPE_1920/BATCH/nas.batch]]) in the
+   four nodes; 
+   2 - Install the dependencies required to compile the NPB benchmarks,
+   download and compile it;
+   3 - Read the experimental project, prepare the MPI line command for the execution, execute the experiments, and
    finally collect the execution time of the benchmarks.
