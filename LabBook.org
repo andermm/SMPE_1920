@@ -65,3 +65,10 @@ about the experimental procedure are described.
    [[./LOGS/nodes_square_root]]) they are not automatically created
    in the execution script.  
 ** Graphical Analysis 
+#+begin_src R :results output :session *R* :exports both
+options(crayon.enabled=FALSE)
+library(tidyverse)
+read_csv("LOGS/npb.02-11-2019.21h37m51s.csv", progress=FALSE) -> df
+df
+#+end_src
+
