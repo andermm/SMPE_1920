@@ -29,14 +29,14 @@
    
 ** System Information 
    To collect the information of all nodes used in the evaluation, it
-   was used the the bash script [[./SMPE_1920/BATCH/sys_info_collect.sh]]
+   was used the the bash script [[./BATCH/sys_info_collect.sh]]
    which creates a log output with ORG extension in
-   [[./SMPE_1920/LOGS/env_info.org]].
+   [[./LOGS/env_info.org]].
  
 ** Design of Experiments
    To execute the benchmarks without any bias, it was used the library
-   DoE in R-Studio (script in [[./SMPE_1920/R/DoE.R]]) to create the Design of Experiments, which is
-   located in [[./SMPE_1920/R/experimental_project.csv]]. In the DoE, it
+   DoE in R-Studio (script in [[./R/DoE.R]]) to create the Design of Experiments, which is
+   located in [[./R/experimental_project.csv]]. In the DoE, it
    was used two factors, *kernels* and *interface*, respectivele,
    randomize option equal a true and 30 replications, totalizing 720
    distincts executions.
@@ -44,7 +44,7 @@
    All the experiments were executed using the batch script
    [[./BATCH/nas.batch]] which is subdivided in 3 individual steps. 
  
-   1 - Executes the system information collector script ([[./SMPE_1920/BATCH/nas.batch]]) in the
+   1 - Executes the system information collector script ([[./BATCH/nas.batch]]) in the
    four nodes; 
    
    2 - Install the dependencies required to compile the NPB benchmarks,
@@ -61,7 +61,7 @@
    command ~salloc -p hype -N 4 -J JOB -t 72:00:00~. Finally the the
    execution script was executed as a nomal bash script. As the
    experiments use two distints machine files
-   ([[./SMPE_1920/LOGS/nodes_power_of_2/]] and
-   [[./SMPE_1920/LOGS/nodes_square_root]]) they are not automatically created
+   ([[./LOGS/nodes_power_of_2/]] and
+   [[./LOGS/nodes_square_root]]) they are not automatically created
    in the execution script.  
 ** Graphical Analysis 
