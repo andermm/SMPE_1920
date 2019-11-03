@@ -1,0 +1,20 @@
+#+TITLE: SMPE_1920
+#+AUTHOR: Anderson Mattheus Maliszewski
+#+STARTUP: overview indent
+#+TAGS: noexport(n) deprecated(d)
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+SEQ_TODO: TODO(t!) STARTED(s!) WAITING(w!) | DONE(d!) CANCELLED(c!) DEFERRED(f!)
+
+This is the repository for the 
+*Scientic Methodology and Performance Evaluation for Experimental
+Computer* class, in which are located the
+files and scripts used to perform the proposed final work
+activity. Above are descrived the files and folders. Further details
+about the experiments are described in [[./LabBook.org]].
+
+- BATCH
+- LOGS
+- NPB3.4
+- R
+- LabBook.org
