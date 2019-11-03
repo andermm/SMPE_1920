@@ -41,10 +41,14 @@
 ** Experiments Execution
    All the experiments were executed using the batch script
    [[./SMPE_1920/BATCH/nas.batch]] which is subdivided in 3 individual steps. 
+ 
    1 - Executes the system information collector script ([[./SMPE_1920/BATCH/nas.batch]]) in the
    four nodes; 
+   
    2 - Install the dependencies required to compile the NPB benchmarks,
    download and compile it;
+   
    3 - Read the experimental project, prepare the MPI line command for the execution, execute the experiments, and
    finally collect the execution time of the benchmarks.
+
 ** Graphical Analysis 
