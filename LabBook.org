@@ -42,7 +42,7 @@
    distincts executions.
 ** Experiments Execution
    All the experiments were executed using the batch script
-   [[./SMPE_1920/BATCH/nas.batch]] which is subdivided in 3 individual steps. 
+   [[../SMPE_1920/BATCH/nas.batch]] which is subdivided in 3 individual steps. 
  
    1 - Executes the system information collector script ([[./SMPE_1920/BATCH/nas.batch]]) in the
    four nodes; 
