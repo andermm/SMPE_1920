@@ -5,8 +5,8 @@
     btl = c("tcp --mca btl_tcp_if_include ib0", "tcp --mca btl_tcp_if_include eno2", "openib")),
     replications=30,
     randomize=TRUE)
-    print(wscad)
+    print(smpe)
   
-  write.table(wscad, file = "experimental_project.csv",
+  write.table(smpe, file = "experimental_project.csv",
                 sep=";",
   )
