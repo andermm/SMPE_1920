@@ -20,13 +20,13 @@ PROJECT=$BASE/R/experimental_project.csv
 PARTITION=hype
 
 #Collect system information
-for (( i = 2; i < 5; i++ )); do
-	ssh $PARTITION${i} '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
+for (( i = 1; i < 5; i++ )); do
+	ssh -o $PARTITION${i} '/home/users/ammaliszewski/SMPE_1920/BATCH/./sys_info_collect.sh'
 done
 
 #Start the experiments
-ssh hype1
-'cd $BASE
+cd $BASE
+echo $HOSTNAME>teste
 
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
@@ -123,7 +123,7 @@ do
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
-done'
+done
 exit
 
 
