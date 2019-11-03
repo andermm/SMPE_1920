@@ -25,8 +25,8 @@ for (( i = 2; i < 5; i++ )); do
 done
 
 #Start the experiments
-ssh hype1;
-cd $BASE
+ssh hype1
+'cd $BASE
 
 #Download, configure and compile NPB.
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
@@ -123,7 +123,7 @@ do
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
 	echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
-done
+done'
 exit
 
 
