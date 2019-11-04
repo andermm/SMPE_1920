@@ -33,6 +33,12 @@ about the experimental procedure are described.
    which creates a log output with ORG extension in
    [[./LOGS/env_info.org]].
  
+** Network Infrastructure Information
+Each node has a Mellanox MT27600 Channel Adapter (CA) configured for
+the InfiniBand 56 Gb/s 4X FDR ConnectX-3 with firmware version
+10.16.1038 and OFED version 4.6-1.0.1.1. All nodes are interconnected
+through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
+
 ** Design of Experiments
    To execute the benchmarks without any bias, it was used the library
    DoE in R-Studio (script in [[./R/DoE.R]]) to create the Design of Experiments, which is
