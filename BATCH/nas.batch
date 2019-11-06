@@ -121,6 +121,7 @@ do
 	echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
 done
+sed -i '1s/^/kernel,interface,time\n/' >> $OUTPUT
 exit
 
 
