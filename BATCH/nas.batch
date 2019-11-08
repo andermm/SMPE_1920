@@ -22,7 +22,7 @@ PARTITION=hype
 #1 - Executes the system information collector script
 
 for (( i = 1; i < 5; i++ )); do
-	ssh $PARTITION${i} '$BASE/BATCH/./sys_info_collect.sh'
+	ssh $PARTITION${i} '$HOME/SMPE_1920/BATCH/./sys_info_collect.sh'
 done
 
 #2 - Install de dependencies, download and compile NPB
@@ -57,19 +57,8 @@ mkdir -p $BASE/LOGS/BACKUP
 ##Define the machine file for MPI
 MACHINEFILE_POWER_OF_2=$LOGS_DIR/nodes_power_of_2
 MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_square_root
-#srun $SRUN_PACK /bin/hostname | sort -n | awk "{print $2}" > $MACHINEFILE
 
-#Generate the experimental project
-Rscript $DoE
-
-# Check if the experimental project is provided
 PROJECT=$BASE/R/experimental_project.csv
-if [[ -f $PROJETO ]]; then
-  echo "The experimental project is provided"
-else
-  echo "The experimental project is missing !"
-  exit
-fi
 
 #2 - Read the experimental project
 tail -n +2 $PROJECT |
