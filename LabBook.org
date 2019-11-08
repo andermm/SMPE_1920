@@ -25,16 +25,15 @@ about the experimental procedure are described.
    require that the number of processes to be a square root, it was
    used 121 processes, with 31 processes in one node and 30 processes
    in the last 3 nodes.
-** How to Reproduce
+** How to Reproduce it
 To reproduce this project, the first step is to to clone the git repository in
 the *$HOME* of the desired computer server. 
 
 ~cd $HOME; git clone https://github.com/andermm/SMPE_1920.git~
 
-Here we assume that your HOME directory is exported with NFS. If you
-don't have the NFS configured,
-[[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-16-04][here]] is toturial to do it.   
-
+Here it is assumed that your HOME directory is exported with NFS. If you
+don't have the NFS configured, [[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-16-04][here]] is a tutorial to do it.
+If this step is ok, go ahead to the other topics.
 ** Software Installation
 To execute the experiments using MPI and also to compile/execute NPB, some
 required packages need to be installed. They are:
@@ -73,8 +72,9 @@ through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
  and calls for the execution script ([[/BATCH/nas.batch]]) to be
  executed as a normal bash script. As the experiments use two distint machine files
  ([[./LOGS/nodes_power_of_2]] and [[./LOGS/nodes_square_root]]) they are not
- automatically created in the execution script.
-
+ automatically created in the execution script. If you are reproducing
+ the experiments in an enviroment without a job scheduler manager,
+ just execute the script ([[/BATCH/nas.sbatch]]) as a normal bash file.
 ** Graphical Analysis 
 After the conclusion of the experiments, in this topic, graphs
 containing the execution time of the applications were created. The
