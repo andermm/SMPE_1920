@@ -1,4 +1,5 @@
-CONTROL_FILE_OUTPUT=$HOME/SMPE_1920/LOGS/env_info.org
+BASE=$HOME/SMPE_1920
+CONTROL_FILE_OUTPUT=$BASE/LOGS/env_info.org
 
 #Collect system information
 ##################################################
