@@ -74,53 +74,62 @@ according to a similar execution time range
 options(crayon.enabled=FALSE)
 library("tidyverse")
 df <- read_csv("LOGS/npb.02-11-2019.21h37m51s.csv")
- df$kernel=toupper(df$kernel) 
+ df$apps=toupper(df$apps) 
     
     df %>%
-      group_by(kernel,interface) %>%
+      group_by(apps,interface) %>%
       summarise(
         mean=mean(time),
         sd=sd(time),
         se=sd/sqrt(n()),
         N=n()) %>%
-      arrange(kernel,interface) -> newdf
+      arrange(apps,interface) -> newdf
 newdf
 #+end_src
 
 #+RESULTS:
 #+begin_example
 
+── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
+✔ ggplot2 3.2.1     ✔ purrr   0.3.2
+✔ tibble  2.1.3     ✔ dplyr   0.8.3
+✔ tidyr   1.0.0     ✔ stringr 1.4.0
+✔ readr   1.3.1     ✔ forcats 0.4.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+
 Parsed with column specification:
 cols(
-  kernel = col_character(),
+  apps = col_character(),
   interface = col_character(),
   time = col_double()
 )
 
 # A tibble: 24 x 6
-# Groups:   kernel [8]
-   kernel interface   mean     sd     se     N
+# Groups:   apps [8]
+   apps  interface   mean     sd     se     N
    <
- <
+<
      <
  <
  <
 <int>
- 1 BT     ETH        558.   2.01  0.366     30
- 2 BT     IB         414.   1.22  0.222     30
- 3 BT     IPoIB      690.  10.5   1.92      30
- 4 CG     ETH        771.   3.49  0.637     30
- 5 CG     IB         184.   1.97  0.360     30
- 6 CG     IPoIB      182.   2.44  0.445     30
- 7 EP     ETH         37.5  1.14  0.209     30
- 8 EP     IB          37.3  0.222 0.0406    30
- 9 EP     IPoIB       38.2  1.91  0.349     30
-10 FT     ETH       1584.   0.726 0.132     30
+ 1 BT    ETH        558.   2.01  0.366     30
+ 2 BT    IB         414.   1.22  0.222     30
+ 3 BT    IPoIB      690.  10.5   1.92      30
+ 4 CG    ETH        771.   3.49  0.637     30
+ 5 CG    IB         184.   1.97  0.360     30
+ 6 CG    IPoIB      182.   2.44  0.445     30
+ 7 EP    ETH         37.5  1.14  0.209     30
+ 8 EP    IB          37.3  0.222 0.0406    30
+ 9 EP    IPoIB       38.2  1.91  0.349     30
+10 FT    ETH       1584.   0.726 0.132     30
 # … with 14 more rows
 #+end_example
 *** BT-SP(121 Procs)
-#+begin_src R :results output graphics :file PLOTS/BT_SP.png :exports both :width 600 :height 400 :session *R* 
-   ggplot(newdf[newdf$kernel %in% c("BT", "SP"), ] , aes(x=kernel, y=mean, fill=interface)) +
+#+begin_src R :results output graphics :file PLOTS/BT_SP.png :exports both :width 600 :height 400 :session *R*    
+ggplot(newdf[newdf$apps %in% c("BT", "SP"), ] , aes(x=apps, y=mean, fill=interface)) +
     geom_bar(stat="identity", position = "dodge", width = 0.2) +
     geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.2)) +
     theme_minimal() +
@@ -138,7 +147,7 @@ cols(
 
 *** FT(128 Procs)
 #+begin_src R :results output graphics :file PLOTS/FT.png :exports both :width 600 :height 400 :session *R* 
-   ggplot(newdf[newdf$kernel %in% c("FT"), ] , aes(x=kernel, y=mean, fill=interface)) +
+   ggplot(newdf[newdf$apps %in% c("FT"), ] , aes(x=apps, y=mean, fill=interface)) +
     geom_bar(stat="identity", position = "dodge", width = 0.1) +
     geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.1)) +
     theme_minimal() +
@@ -156,7 +165,7 @@ cols(
 
 *** EP-IS-MG(128 Procs)
 #+begin_src R :results output graphics :file PLOTS/EP_IS_MG.png :exports both :width 600 :height 400 :session *R* 
-ggplot(newdf[newdf$kernel %in% c("EP", "IS", "MG"), ] , aes(x=kernel, y=mean, fill=interface)) +
+ggplot(newdf[newdf$apps %in% c("EP", "IS", "MG"), ] , aes(x=apps, y=mean, fill=interface)) +
     geom_bar(stat="identity", position = "dodge", width = 0.3) +
     geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.1, position = position_dodge(.3)) +
     theme_minimal() +
@@ -173,7 +182,7 @@ ggplot(newdf[newdf$kernel %in% c("EP", "IS", "MG"), ] , aes(x=kernel, y=mean, fi
 [[file:PLOTS/EP_IS_MG.png]]
 *** CG-LU(128 Procs)
 #+begin_src R :results output graphics :file PLOTS/CG_LU.png :exports both :width 600 :height 400 :session *R* 
-ggplot(newdf[newdf$kernel %in% c("CG", "LU"), ] , aes(x=kernel, y=mean, fill=interface)) +
+ggplot(newdf[newdf$apps %in% c("CG", "LU"), ] , aes(x=apps, y=mean, fill=interface)) +
     geom_bar(stat="identity", position = "dodge", width = 0.2) +
     geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.2)) +
     theme_minimal() +
