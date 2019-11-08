@@ -71,55 +71,118 @@ through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
    [[./LOGS/nodes_square_root]]) they are not automatically created
    in the execution script.  
 ** Graphical Analysis 
+*** Read CSV
 #+begin_src R :results output :session *R* :exports both
-options(crayon.enabled=FALSE)
 library("tidyverse")
 df <- read.csv("LOGS/npb.02-11-2019.21h37m51s.csv")
-
-df %>%
-  group_by(kernel,interface) %>%
-  summarise(
-    mean=mean(time),
-    sd=sd(time),
-    se=sd/sqrt(n()),
-    N=n()) %>%
-  arrange(kernel,interface) -> newdf
-newdf
-
-dfplot<- ggplot(newdf, aes(x=kernel, y=mean, fill=interface)) +
-  geom_bar(stat="identity", color="black",
-           position = position_dodge()) +
-  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2,
-                position = position_dodge(.9))
-print(dfplot)
-
-dfplot+labs(x="", y="Execution Time [s]")+
-  theme_minimal()
-
+ df$kernel=toupper(df$kernel) 
+    
+    df %>%
+      group_by(kernel,interface) %>%
+      summarise(
+        mean=mean(time),
+        sd=sd(time),
+        se=sd/sqrt(n()),
+        N=n()) %>%
+      arrange(kernel,interface) -> newdf
+    newdf
 #+end_src
 
 #+RESULTS:
 #+begin_example
+── [1mAttaching packages[22m ─────────────────────────────────────── tidyverse 1.2.1 ──
+[32m✔[39m [34mggplot2[39m 3.2.1     [32m✔[39m [34mpurrr  [39m 0.3.2
+[32m✔[39m [34mtibble [39m 2.1.3     [32m✔[39m [34mdplyr  [39m 0.8.3
+[32m✔[39m [34mtidyr  [39m 1.0.0     [32m✔[39m [34mstringr[39m 1.4.0
+[32m✔[39m [34mreadr  [39m 1.3.1     [32m✔[39m [34mforcats[39m 0.4.0
+── [1mConflicts[22m ────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
 
-# A tibble: 24 x 6
-# Groups:   kernel [8]
+[90m# A tibble: 24 x 6[39m
+[90m# Groups:   kernel [8][39m
    kernel interface   mean     sd     se     N
-   <
- <
-     <
- <
- <
-<int>
- 1 bt     ETH        558.   2.01  0.366     30
- 2 bt     IB         414.   1.22  0.222     30
- 3 bt     IPoIB      690.  10.5   1.92      30
- 4 cg     ETH        771.   3.49  0.637     30
- 5 cg     IB         184.   1.97  0.360     30
- 6 cg     IPoIB      182.   2.44  0.445     30
- 7 ep     ETH         37.5  1.14  0.209     30
- 8 ep     IB          37.3  0.222 0.0406    30
- 9 ep     IPoIB       38.2  1.91  0.349     30
-10 ft     ETH       1584.   0.726 0.132     30
-# … with 14 more rows
+   [3m[90m<chr>[39m[23m  [3m[90m<fct>[39m[23m      [3m[90m<dbl>[39m[23m  [3m[90m<dbl>[39m[23m  [3m[90m<dbl>[39m[23m [3m[90m<int>[39m[23m
+[90m 1[39m BT     ETH        558.   2.01  0.366     30
+[90m 2[39m BT     IB         414.   1.22  0.222     30
+[90m 3[39m BT     IPoIB      690.  10.5   1.92      30
+[90m 4[39m CG     ETH        771.   3.49  0.637     30
+[90m 5[39m CG     IB         184.   1.97  0.360     30
+[90m 6[39m CG     IPoIB      182.   2.44  0.445     30
+[90m 7[39m EP     ETH         37.5  1.14  0.209     30
+[90m 8[39m EP     IB          37.3  0.222 0.040[4m6[24m    30
+[90m 9[39m EP     IPoIB       38.2  1.91  0.349     30
+[90m10[39m FT     ETH       [4m1[24m584.   0.726 0.132     30
+[90m# … with 14 more rows[39m
 #+end_example
+*** BT-SP(121 Procs)
+#+begin_src R :results output graphics :file PLOTS/BT_SP.png :exports both :width 600 :height 400 :session *R* 
+   ggplot(newdf[newdf$kernel %in% c("BT", "SP"), ] , aes(x=kernel, y=mean, fill=interface)) +
+    geom_bar(stat="identity", position = "dodge", width = 0.2) +
+    geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.2)) +
+    theme_minimal() +
+    scale_fill_manual(values=c("#006dff", "#5ca3ff", "#b2d3ff"), name="Network\nInterface",
+    breaks=c("ETH", "IB", "IPoIB"), labels=c("Ethernet", "InfiniBand", "IP-over-IB")) +
+    theme(legend.position = c(0.15, 0.85), legend.background = element_rect(color = "black",
+    size = 0.3, linetype = "solid"), axis.text=element_text(size=12), 
+    axis.title=element_text(size=12), legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 12)) +
+    labs(x="Application", y="Execution Time [s]")
+#+end_src
+
+#+RESULTS:
+[[file:PLOTS/BT_SP.png]]
+
+*** FT(128 Procs)
+#+begin_src R :results output graphics :file PLOTS/FT.png :exports both :width 600 :height 400 :session *R* 
+   ggplot(newdf[newdf$kernel %in% c("FT"), ] , aes(x=kernel, y=mean, fill=interface)) +
+    geom_bar(stat="identity", position = "dodge", width = 0.1) +
+    geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.1)) +
+    theme_minimal() +
+    scale_fill_manual(values=c("#006dff", "#5ca3ff", "#b2d3ff"), name="Network\nInterface",
+    breaks=c("ETH", "IB", "IPoIB"), labels=c("Ethernet", "InfiniBand", "IP-over-IB")) +
+    theme(legend.position = c(0.15, 0.85), legend.background = element_rect(color = "black",
+    size = 0.3, linetype = "solid"), axis.text=element_text(size=12), 
+    axis.title=element_text(size=12), legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 12)) +
+    labs(x="Application", y="Execution Time [s]")
+#+end_src
+
+#+RESULTS:
+[[file:PLOTS/FT.png]]
+
+*** EP-IS-MG(128 Procs)
+#+begin_src R :results output graphics :file PLOTS/EP_IS_MG.png :exports both :width 600 :height 400 :session *R* 
+ggplot(newdf[newdf$kernel %in% c("EP", "IS", "MG"), ] , aes(x=kernel, y=mean, fill=interface)) +
+    geom_bar(stat="identity", position = "dodge", width = 0.3) +
+    geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.1, position = position_dodge(.3)) +
+    theme_minimal() +
+    scale_fill_manual(values=c("#006dff", "#5ca3ff", "#b2d3ff"), name="Network\nInterface",
+    breaks=c("ETH", "IB", "IPoIB"), labels=c("Ethernet", "InfiniBand", "IP-over-IB")) +
+    theme(legend.position = c(0.15, 0.85), legend.background = element_rect(color = "black",
+    size = 0.3, linetype = "solid"), axis.text=element_text(size=12), 
+    axis.title=element_text(size=12), legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 12)) +
+    labs(x="Application", y="Execution Time [s]")
+#+end_src
+
+#+RESULTS:
+[[file:PLOTS/EP_IS_MG.png]]
+*** CG-LU(128 Procs)
+#+begin_src R :results output graphics :file PLOTS/CG_LU.png :exports both :width 600 :height 400 :session *R* 
+ggplot(newdf[newdf$kernel %in% c("CG", "LU"), ] , aes(x=kernel, y=mean, fill=interface)) +
+    geom_bar(stat="identity", position = "dodge", width = 0.2) +
+    geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.2)) +
+    theme_minimal() +
+    scale_fill_manual(values=c("#006dff", "#5ca3ff", "#b2d3ff"), name="Network\nInterface",
+    breaks=c("ETH", "IB", "IPoIB"), labels=c("Ethernet", "InfiniBand", "IP-over-IB")) +
+    theme(legend.position = c(0.9, 0.85), legend.background = element_rect(color = "black",
+    size = 0.3, linetype = "solid"), axis.text=element_text(size=12), 
+    axis.title=element_text(size=12), legend.title = element_text(color = "black", size = 14),
+    legend.text = element_text(color = "black", size = 12)) +
+    labs(x="Application", y="Execution Time [s]")
+#+end_src
+
+#+RESULTS:
+[[file:PLOTS/CG_LU.png]]
 
