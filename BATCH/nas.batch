@@ -62,7 +62,14 @@ MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_square_root
 #Generate the experimental project
 Rscript $DoE
 
+# Check if the experimental project is provided
 PROJECT=$BASE/R/experimental_project.csv
+if [[ -f $PROJETO ]]; then
+  echo "The experimental project is provided"
+else
+  echo "The experimental project is missing !"
+  exit
+fi
 
 #2 - Read the experimental project
 tail -n +2 $PROJECT |
