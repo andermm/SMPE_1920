@@ -42,10 +42,9 @@ reproduce this evaluation accurately. They are:
 They are used as a project management tool to keep track, record
 all the information, and  generate the graphics using blocks of
 R code. A complete tutorial about how to install and configure the
-mentioned software are available
-[https://app-learninglab.inria.fr/gitlab/learning-lab/mooc-rr-ressources/blob/master/module2/ressources/emacs_orgmode.org][here]]
-If you don't want to use this softwares, you can copy the
-blocks of code and use R or RStudio to generate the graphics.
+mentioned software are available [[https://app-learninglab.inria.fr/gitlab/learning-lab/mooc-rr-ressources/blob/master/module2/ressources/emacs_orgmode.org][here]]. If you don't want to use this
+softwares, you can copy the blocks of code and use R or RStudio to
+generate the graphics.
  
 
 
