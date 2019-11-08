@@ -128,8 +128,7 @@ cols(
 # … with 14 more rows
 #+end_example
 *** BT-SP(121 Procs)
-#+begin_src R :results output graphics :file PLOTS/BT_SP.png :exports both :width 600 :height 400 :session *R*    
-options(crayon.enabled=FALSE)
+#+begin_src R :results output graphics :file PLOTS/BT_SP.png :exports both :width 600 :height 400 :session *R*
 ggplot(newdf[newdf$apps %in% c("BT", "SP"), ] , aes(x=apps, y=mean, fill=interface)) +
     geom_bar(stat="identity", position = "dodge", width = 0.2) +
     geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.05, position = position_dodge(.2)) +
