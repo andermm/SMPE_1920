@@ -25,6 +25,13 @@ about the experimental procedure are described.
    require that the number of processes to be a square root, it was
    used 121 processes, with 31 processes in one node and 30 processes
    in the last 3 nodes.
+** Software Installation
+To execute the experiments using MPI and also to compile/execute NPB, some
+required packages need to be installed. They are:
+- libopenmpi-dev
+- gfortran
+ 
+
 ** System Information 
    For collecting the informations of all nodes used in the evaluation, it
    was used the bash script [[./BATCH/sys_info_collect.sh]],
