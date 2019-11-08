@@ -46,8 +46,8 @@ through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
    All the experiments were executed using the batch script
    [[./BATCH/nas.batch]], which is subdivided into 3 individual steps. 
  
-   1 - Executes the system information collector script ([[./BATCH/nas.batch]]) in the
-   four nodes; 
+   1 - Executes the system information collector script
+   ([[./BATCH/sys_info_collect.sh]]) in the four nodes; 
    
    2 - Install the dependencies required to compile the NPB benchmarks,
    download and compile it;
@@ -63,7 +63,7 @@ through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
    command ~salloc -p hype -N 4 -J JOB -t 72:00:00~. Finally the
    execution script was executed as a normal bash script. As the
    experiments use two distint machine files
-   ([[./LOGS/nodes_power_of_2/]] and
+   ([[./LOGS/nodes_power_of_2]] and
    [[./LOGS/nodes_square_root]]) they are not automatically created
    in the execution script.  
 ** Graphical Analysis 
@@ -74,8 +74,9 @@ according to the number of processes, in which BT and SP have 121, and
 according to a similar execution time range 
 *** Read CSV
 #+begin_src R :results output :session *R* :exports both
+options(crayon.enable=FALSE)
 library("tidyverse")
-df <- read.csv("LOGS/npb.02-11-2019.21h37m51s.csv")
+df <- read_csv("LOGS/npb.02-11-2019.21h37m51s.csv")
  df$kernel=toupper(df$kernel) 
     
     df %>%
