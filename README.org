@@ -13,7 +13,7 @@ files and scripts used to perform the proposed final work
 activity. Above are described the files and folders. In addition, to
 accurately reproduce this evaluation some softwares are required,
 which are listed in the topic *Analysis Environment* at the end of this
-file. Further details about the experiments are described in [[./LabBook.org]].
+file. Further details about how to reproduce the experiments are in [[./LabBook.org]].
 
 - BATCH
 Here are contained the execution and system information collection scripts.
