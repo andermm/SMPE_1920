@@ -38,14 +38,14 @@ done
 
 sed -i 's,mpif90,mpifort,g' $PROGRAM_CONFIG/make.def
 
-kernel=(bt ep cg mg sp lu is ft)
+apps=(bt ep cg mg sp lu is ft)
 classes=(D)
 echo -n "" > $PROGRAM_CONFIG/suite.def
 
-#Insert kernel and class in suite.def
+#Insert app and class in suite.def
 for (( n = 0; n < 8; n++ )); do
 	for (( i = 0; i < 1; i++ )); do
-		echo -e ${kernel[n]}"\t"${classes[i]} >> $PROGRAM_CONFIG/suite.def
+		echo -e ${apps[n]}"\t"${classes[i]} >> $PROGRAM_CONFIG/suite.def
 	done
 done
 
@@ -73,15 +73,15 @@ MACHINEFILE_SQUARE_ROOT=$LOGS_DIR/nodes_square_root
 
 #2 - Read the experimental project
 tail -n +2 $PROJECT |
-while IFS=\; read -r name kernels btl Blocks
+while IFS=\; read -r name apps btl Blocks
 do
 	#Clean the values
 	export name=$(echo $name | sed "s/\"//g")
-	export kernels=$(echo $kernels | sed "s/\"//g")
+	export apps=$(echo $apps | sed "s/\"//g")
 	export btl=$(echo $btl | sed "s/\"//g")
 
 	##Define a single key
-	KEY="$name-${kernels:0:2}-$INTERFACE"
+	KEY="$name-${apps:0:2}-$INTERFACE"
 	
 	echo $KEY
 
@@ -102,26 +102,26 @@ do
 		INTERFACE=ETH
 	fi
 
-	if [[ $kernels == bt.D.x || $kernels == sp.D.x ]]; then
+	if [[ $apps == bt.D.x || $apps == sp.D.x ]]; then
 		PROCS=121
 		runline+="-np $PROCS -machinefile $MACHINEFILE_SQUARE_ROOT "
 	else 
 		PROCS=128
 		runline+="-np $PROCS -machinefile $MACHINEFILE_POWER_OF_2 "
 	fi
-	runline+="$PROGRAM_BIN/$kernels "
+	runline+="$PROGRAM_BIN/$apps "
 	runline+="2>> $LOGS_DIR/nas.err "
-	runline+="&> >(tee -a $LOGS_DIR/BACKUP/${kernels:0:3}$INTERFACE.log > /tmp/nas.out)"
+	runline+="&> >(tee -a $LOGS_DIR/BACKUP/${apps:0:3}$INTERFACE.log > /tmp/nas.out)"
 	
 	##Execute the experiments
 	echo "Running >> $runline <<"
 	eval "$runline < /dev/null"
 
 	TIME=`grep -i "Time in seconds" /tmp/nas.out | awk {'print $5'}`
-	echo "${kernels:0:2},$INTERFACE,$TIME" >> $OUTPUT
+	echo "${apps:0:2},$INTERFACE,$TIME" >> $OUTPUT
 	echo "Done!"
 done
-sed -i '1s/^/kernel,interface,time\n/' >> $OUTPUT
+sed -i '1s/^/apps,interface,time\n/' >> $OUTPUT
 exit
 
 
