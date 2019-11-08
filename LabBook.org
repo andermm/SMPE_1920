@@ -11,7 +11,6 @@ Evaluation for Experimental Computer* class, in which informations
 about the experimental procedure are described.
 
 * Experimental Project
-
 ** Objective
    Evaluate the impact of the network interconnection over parallel
    programs. Both *InfiniBand (IB)* and *Gigabit Ethernet (ETH)*
@@ -26,19 +25,16 @@ about the experimental procedure are described.
    require that the number of processes to be a square root, it was
    used 121 processes, with 31 processes in one node and 30 processes
    in the last 3 nodes.
-   
 ** System Information 
    For collecting the informations of all nodes used in the evaluation, it
    was used the bash script [[./BATCH/sys_info_collect.sh]],
    which creates a log output with ORG extension in
    [[./LOGS/env_info.org]].
- 
 ** Network Infrastructure Information
 Each node has a Mellanox MT27600 Channel Adapter (CA) configured for
 the InfiniBand 56 Gb/s 4X FDR ConnectX-3 with firmware version
 10.16.1038 and OFED version 4.6-1.0.1.1. All nodes are interconnected
 through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
-
 ** Design of Experiments
    To execute the benchmarks without any bias, it was used the library
    DoE in R-Studio (script in [[./R/DoE.R]]) to create the Design of Experiments, which is
@@ -71,6 +67,11 @@ through a  Mellanox SX6036 FDR and a generic de 1 Gbps switch.
    [[./LOGS/nodes_square_root]]) they are not automatically created
    in the execution script.  
 ** Graphical Analysis 
+After the conclusion of the experiments, in this topic, graphs
+containing the execution time of the applications were created. The
+first step is to read the CSV file. Next, four graphs are created
+according to the number of processes, in which BT and SP have 121, and
+according to a similar execution time range 
 *** Read CSV
 #+begin_src R :results output :session *R* :exports both
 library("tidyverse")
