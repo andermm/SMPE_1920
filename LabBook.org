@@ -33,7 +33,9 @@ required packages need to be installed. They are:
 
 If your OS is based on Debian and you have permission to install new
 packages, you can install both required packages using the
-script in [[/BATCH/sofware_install.sh]]
+script in [[/BATCH/sofware_install.sh]]. On the other hand, if you don't
+have permission to do it, you can use the Spack package manager. A
+complete tutorial can be seen in [[https://spack-tutorial.readthedocs.io/en/latest/][here.]]
 ** System Information 
    For collecting the informations of all nodes used in the evaluation, it
    was used the bash script [[./BATCH/sys_info_collect.sh]],
