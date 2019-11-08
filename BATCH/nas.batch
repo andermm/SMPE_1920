@@ -98,7 +98,7 @@ do
 	fi
 
 	if [[ $interface == eth ]]; then
-		unline+="tcp --mca btl_tcp_if_include eno2 "
+		runline+="tcp --mca btl_tcp_if_include eno2 "
 	fi
 
 	if [[ $apps == bt.D.x || $apps == sp.D.x ]]; then
