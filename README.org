@@ -10,8 +10,10 @@ This repository is for the
 *Scientific Methodology and Performance Evaluation for Experimental
 Computer* class, in which are located the
 files and scripts used to perform the proposed final work
-activity. Above are described the files and folders. Further details
-about the experiments are described in [[./LabBook.org]].
+activity. Above are described the files and folders. In addition, to
+accurately reproduce this evaluation some softwares are required,
+which are listed in the topic *Analysis Environment* at the end of this
+file. Further details about the experiments are described in [[./LabBook.org]].
 
 - BATCH
 Here are contained the execution and system information collection scripts.
@@ -32,4 +34,18 @@ to execute the binaries of the NPB randomly.
 - LabBook.org
 In this file are described the objective of this work, as well as, the
 step-by-step of the entire project.
+
+* Analysis Environment 
+As mentioned before, some specific softwares are necessary to
+reproduce this evaluation accurately. They are:
+- Emacs and Org capable of compiling blocks of R code using Org-Babel
+They are used as a project management tool to keep track, record
+all the information, and  generate the graphics using blocks of
+R code. A complete tutorial about how to install and configure the
+mentioned software are available
+[https://app-learninglab.inria.fr/gitlab/learning-lab/mooc-rr-ressources/blob/master/module2/ressources/emacs_orgmode.org][here]]
+If you don't want to use this softwares, you can copy the
+blocks of code and use R or RStudio to generate the graphics.
+ 
+
 
