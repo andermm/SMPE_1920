@@ -25,6 +25,16 @@ about the experimental procedure are described.
    require that the number of processes to be a square root, it was
    used 121 processes, with 31 processes in one node and 30 processes
    in the last 3 nodes.
+** How to Reproduce
+To reproduce this project, the first step is to to clone the git repository in
+the *$HOME* of the desired computer server. 
+
+~cd $HOME; git clone https://github.com/andermm/SMPE_1920.git~
+
+Here we assume that your HOME directory is exported with NFS. If you
+don't have the NFS configured,
+[[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-16-04][here]] is toturial to do it.   
+
 ** Software Installation
 To execute the experiments using MPI and also to compile/execute NPB, some
 required packages need to be installed. They are:
@@ -35,7 +45,7 @@ If your OS is based on Debian and you have permission to install new
 packages, you can install both required packages using the
 script in [[/BATCH/sofware_install.sh]]. On the other hand, if you don't
 have permission to do it, you can use the Spack package manager. A
-complete tutorial can be seen in [[https://spack-tutorial.readthedocs.io/en/latest/][here.]]
+complete tutorial can be seen in [[https://spack-tutorial.readthedocs.io/en/latest/][here]].
 ** System Information 
    For collecting the informations of all nodes used in the evaluation, it
    was used the bash script [[./BATCH/sys_info_collect.sh]],
