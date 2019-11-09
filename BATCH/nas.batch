@@ -25,7 +25,7 @@ for (( i = 1; i < 5; i++ )); do
 	ssh $PARTITION${i} '$HOME/SMPE_1920/BATCH/./sys_info_collect.sh'
 done
 
-#2 - Install de dependencies, download and compile NPB
+#2 - Download and compile NPB
 cd $BASE
 
 wget https://www.nas.nasa.gov/assets/npb/NPB3.4.tar.gz
