@@ -109,7 +109,7 @@ do
 	echo "${apps:0:2},$interface,$TIME" >> $OUTPUT
 	echo "Done!"
 done
-sed -i '1s/^/apps,interface,time\n/' >> $OUTPUT
+sed -i '1s/^/apps,interface,time\n/' $OUTPUT
 exit
 
 
